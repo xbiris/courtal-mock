@@ -1,0 +1,6 @@
+node_modules/
+dist/
+# design documents stay local (the repo is public)
+app-flows/
+.claude/
+*.log
