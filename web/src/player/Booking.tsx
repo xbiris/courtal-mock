@@ -382,7 +382,7 @@ export function Review() {
         dur,
         kind: 'booking',
         source: 'app',
-        name: 'Iarina P.',
+        name: 'Iarina I.',
         playerId: ME,
         pay: method === 'venue' ? 'unpaid' : 'online',
         price,

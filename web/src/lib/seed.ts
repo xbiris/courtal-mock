@@ -3,7 +3,7 @@ import { addDays, todayISO, weekday, isWeekend, parseHM } from './time'
 
 export const ME = 'iarina'
 export const CONSOLE_VENUE = 'verde'
-export const VERSION = 4
+export const VERSION = 5
 
 export function rng(seed: number) {
   let a = seed >>> 0
@@ -26,10 +26,10 @@ export function hash(s: string) {
 export const uid = () => Math.random().toString(36).slice(2, 10)
 
 export const PLAYERS: Player[] = [
-  { id: 'iarina', first: 'Iarina', last: 'Popa', level: 3.3, rel: 98, games: 57 },
-  { id: 'david', first: 'David', last: 'Barbu', level: 3.1, rel: 96, games: 42 },
-  { id: 'marius', first: 'Marius', last: 'Dumitrescu', level: 3.6, rel: 94, games: 71 },
-  { id: 'andrei', first: 'Andrei', last: 'Munteanu', level: 3.0, rel: 91, games: 23 },
+  { id: 'iarina', first: 'Iarina', last: 'Ihos', level: 3.3, rel: 98, games: 57 },
+  { id: 'david', first: 'David', last: 'Biris', level: 3.1, rel: 96, games: 42 },
+  { id: 'marius', first: 'Marius', last: 'Moldovan', level: 3.6, rel: 94, games: 71 },
+  { id: 'andrei', first: 'Andrei', last: 'Laslo', level: 3.0, rel: 91, games: 23 },
   { id: 'elena', first: 'Elena', last: 'Stoica', level: 2.9, rel: 99, games: 38 },
   { id: 'radu', first: 'Radu', last: 'Popovici', level: 4.2, rel: 97, games: 112 },
   { id: 'vlad', first: 'Vlad', last: 'Toma', level: 3.8, rel: 93, games: 64 },
@@ -309,8 +309,8 @@ function verdeToday(v: Venue, d: string, s: { juniors: string; muresan: string }
   return [
     b({ venueId: 'verde', courtId: 'v1', date: d, start: 8 * 60, dur: 60, name: 'Popescu A.', source: 'desk', pay: 'venue', phone: '0723 118 402', price: p('v1', 480, 60) }),
     b({ venueId: 'verde', courtId: 'v1', date: d, start: 17 * 60, dur: 60, name: 'Club juniors', kind: 'block', reason: 'training', pay: 'none', seriesId: s.juniors, source: 'desk' }),
-    b({ id: 'b_iarina', venueId: 'verde', courtId: 'v1', date: d, start: 19 * 60, dur: 60, name: 'Iarina P.', playerId: 'iarina', gameId: 'g_iarina', price: p('v1', 1140, 60) }),
-    b({ venueId: 'verde', courtId: 'v1', date: d, start: 21 * 60, dur: 60, name: 'Andrei M.', playerId: 'andrei', price: p('v1', 1260, 60) }),
+    b({ id: 'b_iarina', venueId: 'verde', courtId: 'v1', date: d, start: 19 * 60, dur: 60, name: 'Iarina I.', playerId: 'iarina', gameId: 'g_iarina', price: p('v1', 1140, 60) }),
+    b({ venueId: 'verde', courtId: 'v1', date: d, start: 21 * 60, dur: 60, name: 'Andrei L.', playerId: 'andrei', price: p('v1', 1260, 60) }),
     b({ venueId: 'verde', courtId: 'v2', date: d, start: 9 * 60, dur: 120, name: 'Maintenance', kind: 'block', reason: 'maintenance', note: 'Resurfacing', pay: 'none', source: 'desk' }),
     b({ venueId: 'verde', courtId: 'v2', date: d, start: 18 * 60, dur: 60, name: 'David B.', playerId: 'david', price: p('v2', 1080, 60) }),
     b({ venueId: 'verde', courtId: 'v2', date: d, start: 19 * 60, dur: 90, name: 'Ionescu D.', source: 'desk', pay: 'unpaid', phone: '0745 220 913', price: p('v2', 1140, 90) }),

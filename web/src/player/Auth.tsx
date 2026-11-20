@@ -8,7 +8,7 @@ import { presenterTap } from '../Presenter'
 
 type Provider = 'apple' | 'google' | 'facebook'
 
-const KNOWN = 'iarina.popa@gmail.com'
+const KNOWN = 'iarina.ihos@gmail.com'
 let pendingEmail = ''
 
 function signIn(method: Provider | 'email', email: string) {
@@ -78,7 +78,7 @@ function ProviderSheet({ p, onClose, onDone }: { p: Provider | null; onClose: ()
       <button className="card bordered row" style={{ textAlign: 'left' }} onClick={go}>
         <span className="avatar dark">I</span>
         <div className="grow">
-          <div className="bold">Iarina Popa</div>
+          <div className="bold">Iarina Ihos</div>
           <div className="muted small">{KNOWN}</div>
         </div>
       </button>
