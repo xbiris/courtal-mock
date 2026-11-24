@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Map as MapIcon, SlidersHorizontal, Share, Check, Clock, CreditCard, Smartphone, Plus, Upload, CalendarPlus, Info, Users } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Map as MapIcon, SlidersHorizontal, Share, Check, Star, Clock, CreditCard, Smartphone, Plus, Upload, CalendarPlus, Info, Users } from 'lucide-react'
 import { useDemo, venue, court, freeTimes, freeCourts, courtFree, priceFor, addBooking, ME, minPrice, courtsFor, update, bookingOf } from '../lib/store'
 import { fmtDate, fmtMoney, monthLong, dayShort, useLang, useT } from '../lib/i18n'
 import { addDays, hm, monthGrid, nowMin, parseISO, todayISO } from '../lib/time'
 import type { Sport, Venue } from '../lib/types'
-import { CourtLines, Chips, Sheet, SportIcon, Toggle, courtName, cx, photoUrl, sportName, surfaceName, toast } from '../ui'
+import { Chips, Sheet, SportIcon, Toggle, courtName, cx, photoUrl, sportName, surfaceName, toast } from '../ui'
 import { PlayerShell } from './PlayerApp'
-import { TopBar, cancelUntil } from './common'
+import { SurfaceTag, TopBar, cancelUntil } from './common'
 
 function nextSlot() {
   return Math.ceil((nowMin() + 1) / 30) * 30
@@ -64,17 +64,17 @@ export function CourtsList() {
                   <img src={photoUrl(v.cover)} alt="" loading="lazy" />
                   <span className="km-pill">{v.km.toFixed(1).replace('.0', '')} km</span>
                 </div>
-                <div className="row between" style={{ padding: '0 8px' }}>
-                  <h3 style={{ fontSize: 22, fontWeight: 600 }}>{v.name}</h3>
-                  <span className="row" style={{ gap: 6, fontSize: 16 }}>
-                    <span className="dot" style={{ width: 14, height: 14, border: '1.5px solid var(--ink)' }} />
+                <div className="row between" style={{ alignItems: 'baseline' }}>
+                  <h3 className="cond" style={{ fontSize: 26, lineHeight: 1 }}>{v.name}</h3>
+                  <span className="row num" style={{ gap: 5, fontSize: 15, fontWeight: 600 }}>
+                    <Star size={15} fill="currentColor" strokeWidth={0} aria-hidden />
                     {v.rating.toFixed(1)}
                   </span>
                 </div>
-                <div className="muted" style={{ padding: '0 8px', fontSize: 15.5 }}>
+                <div className="muted" style={{ fontSize: 15 }}>
                   {v.address.split(',')[0]} · {courtSummary(t, v, sport)}
                 </div>
-                <div className="row between wrap" style={{ padding: '10px 8px 0', gap: 10 }}>
+                <div className="row between wrap" style={{ paddingTop: 10, marginTop: 4, gap: 10, borderTop: '1px solid var(--rule)' }}>
                   {times.length ? (
                     <div className="row" style={{ gap: 8 }}>
                       {times.map((x) => (
@@ -96,8 +96,8 @@ export function CourtsList() {
                       {nextFree && ` · ${t('next free', 'următorul liber')} ${fmtDate(lang, nextFree.d)} ${hm(nextFree.t)}`}
                     </span>
                   )}
-                  <span style={{ fontSize: 16 }}>
-                    {t('from', 'de la')} <b style={{ fontSize: 21 }}>{fmtMoney(minPrice(v, sport))}</b>
+                  <span style={{ fontSize: 14 }} className="muted">
+                    {t('from', 'de la')} <b className="cond num" style={{ fontSize: 24, color: 'var(--ink)' }}>{fmtMoney(minPrice(v, sport))}</b>
                   </span>
                 </div>
               </div>
@@ -156,7 +156,7 @@ export function VenueScreen() {
   return (
     <div style={{ paddingBottom: 120 }}>
       <div className="v-banner">
-        <CourtLines sport={sport} style={{ width: 240, height: 140, marginTop: 20 }} />
+        <img src={photoUrl(v.cover)} alt={v.name} />
         <div className="bar" style={{ left: 0, right: 0 }}>
           <button className="icon-btn white" style={{ width: 54, height: 54 }} onClick={() => nav(-1)} aria-label="Back">
             <ChevronLeft size={26} />
@@ -169,7 +169,7 @@ export function VenueScreen() {
       <div className="p-page" style={{ paddingTop: 18 }}>
         <div className="row between" style={{ alignItems: 'flex-start' }}>
           <div>
-            <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: -0.4 }}>{v.name}</h1>
+            <h1 className="cond" style={{ fontSize: 40, lineHeight: 0.95, fontWeight: 800 }}>{v.name}</h1>
             <div className="muted" style={{ marginTop: 4 }}>
               {v.address.split(',')[0]} · {v.km.toFixed(1).replace('.0', '')} km · {dayHours.open ? `${t('open until', 'deschis până la')} ${hm(dayHours.to)}` : t('closed today', 'închis azi')}
             </div>
@@ -193,9 +193,9 @@ export function VenueScreen() {
             />
           </div>
         )}
-        <div className="row" style={{ gap: 10, marginTop: 16, overflowX: 'auto' }}>
-          {v.photos.slice(0, 4).map((p) => (
-            <div key={p} className="photo" style={{ width: 150, height: 96, flex: 'none', borderRadius: 18 }}>
+        <div className="photo-strip">
+          {v.photos.filter((p) => p !== v.cover).slice(0, 4).map((p) => (
+            <div key={p} className="photo" style={{ width: 150, height: 96, flex: 'none', borderRadius: 'var(--r-sm)' }}>
               <img src={photoUrl(p)} alt="" loading="lazy" />
             </div>
           ))}
@@ -207,7 +207,6 @@ export function VenueScreen() {
               <div className="row between" style={{ marginBottom: 12 }}>
                 <button
                   className="icon-btn"
-                  style={{ background: 'var(--green-soft)' }}
                   onClick={() => setYm(({ y, m }) => (m === 0 ? { y: y - 1, m: 11 } : { y, m: m - 1 }))}
                   aria-label="Previous month"
                 >
@@ -218,7 +217,6 @@ export function VenueScreen() {
                 </b>
                 <button
                   className="icon-btn"
-                  style={{ background: 'var(--green-soft)' }}
                   onClick={() => setYm(({ y, m }) => (m === 11 ? { y: y + 1, m: 0 } : { y, m: m + 1 }))}
                   aria-label="Next month"
                 >
@@ -295,13 +293,14 @@ export function VenueScreen() {
                   {courts.map((c) => (
                     <button key={c.id} className={cx('court-opt', selCourt?.id === c.id && 'on')} onClick={() => setCourtId(c.id)}>
                       <div className="grow">
-                        <div style={{ fontSize: 19, fontWeight: 500 }}>{courtName(t, c.name)}</div>
-                        <div className="muted small">
-                          {c.indoor ? t('Indoor', 'Interior') : t('Outdoor', 'Exterior')} · {surfaceName(t, c.surface)}
+                        <div className="cond" style={{ fontSize: 20 }}>{courtName(t, c.name)}</div>
+                        <div className="row muted small" style={{ gap: 8, marginTop: 4 }}>
+                          <SurfaceTag t={t} surface={c.surface} indoor={c.indoor} />
+                          {c.indoor ? t('Indoor', 'Interior') : t('Outdoor', 'Exterior')}
                           {c.lights && !c.indoor ? ` · ${t('lights', 'nocturnă')}` : ''}
                         </div>
                       </div>
-                      <b style={{ fontSize: 19 }}>{fmtMoney(priceFor(v, c, date, time, dur))}</b>
+                      <b className="cond num" style={{ fontSize: 24 }}>{fmtMoney(priceFor(v, c, date, time, dur))}</b>
                       {selCourt?.id === c.id && <Check size={22} />}
                     </button>
                   ))}
@@ -324,7 +323,7 @@ export function VenueScreen() {
           <div className="grow">
             {ok ? (
               <>
-                <div style={{ fontSize: 21, fontWeight: 600 }}>{fmtMoney(price)}</div>
+                <div className="cond num" style={{ fontSize: 30, lineHeight: 1 }}>{fmtMoney(price)}</div>
                 <div className="muted small">
                   {fmtDate(lang, date)} · {hm(time!)}–{hm(time! + dur)} · {courtName(t, selCourt!.name)}
                 </div>

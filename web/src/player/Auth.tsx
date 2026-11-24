@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChevronLeft, Mail, Info } from 'lucide-react'
 import { useLang, useT } from '../lib/i18n'
 import { update, useDemo } from '../lib/store'
-import { CourtLines, Logo, Sheet, cx, toast } from '../ui'
+import { Logo, Sheet, cx, toast } from '../ui'
 import { presenterTap } from '../Presenter'
 
 type Provider = 'apple' | 'google' | 'facebook'
@@ -103,10 +103,11 @@ export function Welcome({ mode }: { mode: 'signup' | 'login' }) {
         <LangPill />
       </div>
       {mode === 'signup' ? (
-        <div className="hero" style={{ minHeight: 260, marginTop: 10, marginBottom: 6, padding: '28px 26px' }}>
-          <CourtLines sport="tennis" style={{ position: 'absolute', right: -60, top: -10, width: 340, height: 220 }} />
-          <h1 style={{ fontSize: 50 }}>{t('Find your game.', 'Găsește-ți meciul.')}</h1>
-          <div style={{ position: 'relative', fontSize: 18, fontWeight: 500 }}>{t('Book courts, find players, play more.', 'Rezervă terenuri, găsește parteneri, joacă mai des.')}</div>
+        <div className="band auth-band">
+          <h1>{t('Find your game!', 'Găsește-ți jocul!')}</h1>
+          <div className="meta">
+            <span>{t('Book courts, find players, play more.', 'Rezervă terenuri, găsește parteneri, joacă mai des.')}</span>
+          </div>
         </div>
       ) : (
         <div style={{ margin: '48px 0 18px' }}>
@@ -169,9 +170,7 @@ function AuthTop({ back }: { back: string }) {
       <button className="icon-btn" style={{ marginLeft: -10 }} onClick={() => nav(back)} aria-label="Back">
         <ChevronLeft size={28} />
       </button>
-      <span className="tiny faint" style={{ letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-        {t('Email login', 'Conectare cu email')}
-      </span>
+      <span className="small muted">{t('Email login', 'Conectare cu email')}</span>
       <span style={{ width: 44 }} />
     </div>
   )

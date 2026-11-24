@@ -6,7 +6,10 @@
   --line: #e2efdf;
   --ink: #0f2b28;
   --ink-2: #5f716e;
-  --ink-3: #94a39f;
+  --ink-3: #6f7f7b;
+  --rule: #cfd8cc;
+  --clay: #a8512d; /* darkened from #c8643b so 12px white tag text clears 4.5:1 */
+  --indoor: #2f5d8a;
   --bg: #f7f8f4;
   --card: #ffffff;
   --danger: #d23b3b;
@@ -15,10 +18,11 @@
   --amber-soft: #fdf3dc;
   --shadow: 0 8px 30px rgba(15, 43, 40, 0.08);
   --shadow-lg: 0 18px 60px rgba(15, 43, 40, 0.18);
-  --r-lg: 28px;
-  --r-md: 20px;
-  --r-sm: 14px;
-  font-family: 'Outfit', system-ui, sans-serif;
+  --r-lg: 16px;
+  --r-md: 12px;
+  --r-sm: 10px;
+  --cond: 68%;
+  font-family: 'Archivo Variable', system-ui, sans-serif;
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -63,6 +67,70 @@ p {
 }
 img {
   display: block;
+}
+::selection {
+  background: var(--green);
+  color: var(--ink);
+}
+input,
+textarea {
+  caret-color: var(--ink);
+}
+
+/* Keyboard focus: ink ring, white on ink surfaces. Pointer clicks stay clean. */
+:where(a, button, summary, [role='button'], [tabindex]):focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+:where(.toast, .savebar, .movebar) :focus-visible {
+  outline-color: #fff;
+}
+
+/* ---------- draw-sheet voices ---------- */
+/* Condensed caps: names, section heads, the big times and prices of a schedule of play. */
+.cond {
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+.rule-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 8px;
+}
+.rule-head h2 {
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1;
+}
+.surf {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 7px;
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: var(--ink-2);
+  flex: none;
+}
+.surf.clay {
+  background: var(--clay);
+}
+.surf.indoor {
+  background: var(--indoor);
 }
 
 /* ---------- utilities ---------- */
@@ -234,6 +302,7 @@ img {
   background: var(--card);
   border-radius: var(--r-lg);
   padding: 22px;
+  border: 1px solid var(--rule);
 }
 .card.tight {
   padding: 16px 18px;
@@ -768,4 +837,62 @@ img {
 input[type='range'] {
   accent-color: var(--green-600);
   width: 100%;
+}
+
+/* ---------- landing ---------- */
+.landing {
+  min-height: 100dvh;
+  padding: 24px 20px 40px;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.landing-band h1 {
+  font-size: 56px;
+  max-width: 900px;
+}
+@media (min-width: 900px) {
+  .landing-band {
+    grid-template-columns: 1fr;
+  }
+  .landing-band h1 {
+    font-size: 96px;
+  }
+}
+.doors {
+  display: grid;
+  border-top: 2px solid var(--ink);
+}
+.door {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+  padding: 18px 2px 20px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 16px;
+}
+.door:hover {
+  background: var(--green-softer);
+}
+.door-title {
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+}
+@media (min-width: 900px) {
+  .doors {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .door {
+    padding: 20px 24px 24px 0;
+    border-bottom: 0;
+  }
+  .door + .door {
+    border-left: 1px solid var(--rule);
+    padding-left: 24px;
+  }
 }

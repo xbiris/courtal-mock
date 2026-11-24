@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ChevronDown, ChevronUp, Check, House, Search, Globe, User } from 'lucide-react'
 import './player.css'
@@ -50,11 +50,16 @@ function SignedIn() {
 
 export const SPORTS: (Sport | 'all')[] = ['all', 'tennis', 'football', 'basketball', 'volleyball']
 
-export function SportPicker() {
+export function SportPicker({ coach = true }: { coach?: boolean }) {
   const s = useDemo()
   const t = useT()
   const [open, setOpen] = useState(false)
   const cur = s.me.sport
+  useEffect(() => {
+    const o = () => setOpen(true)
+    window.addEventListener('open-sport-picker', o)
+    return () => window.removeEventListener('open-sport-picker', o)
+  }, [])
   return (
     <>
       <button className="sport-pill" onClick={() => setOpen(!open)}>
@@ -62,7 +67,7 @@ export function SportPicker() {
         {sportName(t, cur)}
         {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </button>
-      {!s.me.sportPicked && !open && (
+      {coach && !s.me.sportPicked && !open && (
         <div className="coach" onClick={() => setOpen(true)}>
           {t('Pick your sport to see the right courts and games. You can switch any time.', 'Alege sportul ca să vezi terenurile și meciurile potrivite. Îl poți schimba oricând.')}
         </div>
@@ -107,7 +112,7 @@ export function PlayerShell({ children, tab }: { children: ReactNode; tab: 'home
   const initial = s.me.signedIn ? 'I' : 'A'
   return (
     <>
-      <div className="p-header">
+      <div className={cx('p-header', tab === 'home' && 'on-band')}>
         <div className="row" style={{ gap: 28 }}>
           <button onClick={presenterTap} aria-label="Courtal">
             <Logo size={40} />
@@ -125,7 +130,7 @@ export function PlayerShell({ children, tab }: { children: ReactNode; tab: 'home
           </nav>
         </div>
         <div className="sport-slot" style={{ position: 'static' }}>
-          <SportPicker />
+          <SportPicker coach={tab !== 'home'} />
         </div>
         <button className="avatar" style={{ width: 52, height: 52, fontSize: 19 }} aria-label="Profile">
           {initial}
@@ -133,17 +138,21 @@ export function PlayerShell({ children, tab }: { children: ReactNode; tab: 'home
       </div>
       {children}
       <div className="tabbar hide-lg">
-        <button className={cx(tab === 'home' && 'on')} onClick={() => nav('/app/home')} aria-label="Home">
-          <House size={28} strokeWidth={1.8} />
+        <button className={cx(tab === 'home' && 'on')} onClick={() => nav('/app/home')}>
+          <House size={24} strokeWidth={1.8} aria-hidden />
+          {t('Home', 'Acasă')}
         </button>
-        <button className={cx(tab === 'search' && 'on')} onClick={() => nav('/app/courts')} aria-label="Search">
-          <Search size={28} strokeWidth={1.8} />
+        <button className={cx(tab === 'search' && 'on')} onClick={() => nav('/app/courts')}>
+          <Search size={24} strokeWidth={1.8} aria-hidden />
+          {t('Search', 'Caută')}
         </button>
-        <button aria-label="Explore">
-          <Globe size={28} strokeWidth={1.8} />
+        <button>
+          <Globe size={24} strokeWidth={1.8} aria-hidden />
+          {t('Explore', 'Explorează')}
         </button>
-        <button aria-label="Profile">
-          <User size={28} strokeWidth={1.8} />
+        <button>
+          <User size={24} strokeWidth={1.8} aria-hidden />
+          {t('Profile', 'Profil')}
         </button>
       </div>
     </>

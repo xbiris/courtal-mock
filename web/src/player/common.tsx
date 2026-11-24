@@ -1,12 +1,12 @@
 import { ChevronLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import type { DemoState, Game, Sport } from '../lib/types'
+import type { DemoState, Game, Sport, Surface } from '../lib/types'
 import type { Lang, T } from '../lib/i18n'
 import { fmtRel, fmtDate } from '../lib/i18n'
 import { bookingOf, court, venue, ME } from '../lib/store'
 import { hm } from '../lib/time'
-import { cx } from '../ui'
+import { cx, surfaceName } from '../ui'
 
 export function formatName(t: T, g: Game, sport: Sport) {
   if (g.format === 'doubles') return t('Doubles', 'Dublu')
@@ -21,6 +21,12 @@ export function gameInfo(s: DemoState, g: Game) {
   const v = venue(s, b.venueId)
   const c = court(v, b.courtId)
   return { b, v, c, sport: c.sport, spotsLeft: g.size - g.players.length }
+}
+
+/** Surface label in the court's own colour: clay orange, indoor blue, ink-grey for the rest. */
+export function SurfaceTag({ t, surface, indoor }: { t: T; surface: Surface; indoor: boolean }) {
+  const kind = surface === 'clay' ? 'clay' : indoor ? 'indoor' : ''
+  return <span className={cx('surf', kind)}>{surface === 'clay' ? surfaceName(t, 'clay') : indoor ? t('Indoor', 'Interior') : surfaceName(t, surface)}</span>
 }
 
 export function levelLabel(t: T, g: Game) {

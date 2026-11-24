@@ -48,9 +48,11 @@
   margin: 0 auto;
 }
 .p-topbar h1 {
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.3px;
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
 }
 .p-topbar.narrow {
   max-width: 620px;
@@ -133,118 +135,303 @@
   padding: 12px 0 calc(14px + env(safe-area-inset-bottom));
 }
 .tabbar button {
-  width: 64px;
-  height: 46px;
+  width: 72px;
+  height: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   position: relative;
+  color: var(--ink-2);
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.tabbar button.on {
+  color: var(--ink);
 }
 .tabbar button.on::after {
   content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 9px;
+  height: 3px;
+  left: 14px;
+  right: 14px;
   background: var(--green);
   position: absolute;
-  bottom: -4px;
+  top: -12px;
 }
 
-/* home */
-.hero {
-  background: var(--green);
-  border-radius: 32px;
-  position: relative;
-  overflow: hidden;
-  padding: 34px 28px 32px;
-  min-height: 300px;
+/* ---------- home: the tournament band ---------- */
+@media (max-width: 899px) {
+  .p-header.on-band {
+    background: var(--green);
+    max-width: none;
+  }
+  .p-header.on-band + .p-page > .band {
+    padding-top: 8px;
+  }
+}
+.band-hint {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 22px;
-}
-.hero h1 {
-  font-size: 52px;
-  line-height: 0.98;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: var(--r-sm);
+  padding: 11px 14px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: -1.6px;
-  position: relative;
-  max-width: 300px;
-}
-.hero .lines {
-  position: absolute;
-  right: -60px;
-  top: 0;
-  width: 400px;
-  height: 260px;
-}
-.hero .btn {
-  align-self: flex-start;
-  position: relative;
+  text-align: left;
 }
 @media (min-width: 900px) {
-  .hero {
-    min-height: 340px;
-    padding: 48px;
-  }
-  .hero h1 {
-    font-size: 72px;
-    max-width: 460px;
-  }
-  .hero .lines {
-    width: 640px;
-    height: 400px;
-    right: -40px;
+  .band-hint {
+    grid-column: 1 / -1;
   }
 }
-.quick .list-row {
-  padding: 22px 6px;
-  font-size: 19px;
-  font-weight: 500;
+.band {
+  background: var(--green);
+  border-bottom: 2px solid var(--ink);
+  margin: 0 -20px;
+  padding: 26px 20px 22px;
+  display: grid;
+  gap: 18px;
 }
-.section-title {
+.band h1 {
+  font-stretch: 62%;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+}
+.band .meta {
   display: flex;
-  align-items: baseline;
   justify-content: space-between;
-  margin: 30px 0 14px;
-}
-.section-title h2 {
-  font-size: 24px;
+  gap: 12px;
   font-weight: 600;
-  letter-spacing: -0.3px;
+  font-size: 15px;
+  border-top: 1px solid rgba(15, 43, 40, 0.35);
+  padding-top: 12px;
 }
-.game-card {
-  background: #fff;
-  border-radius: var(--r-lg);
-  padding: 20px 22px;
+.band .btn {
+  justify-self: start;
+}
+@media (min-width: 900px) {
+  .band {
+    margin: 0;
+    border: 2px solid var(--ink);
+    padding: 40px 44px 30px;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    column-gap: 40px;
+  }
+  .band h1 {
+    font-size: 96px;
+  }
+  .band .meta {
+    grid-column: 1 / -1;
+  }
+}
+
+.auth-band {
+  margin: 10px -24px 10px;
+  padding: 30px 24px 18px;
+}
+.auth-band h1 {
+  font-size: 76px;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+}
+@media (min-width: 900px) {
+  .auth-band {
+    margin: 10px 0;
+    grid-template-columns: 1fr;
+  }
+  .auth-band h1 {
+    font-size: 88px;
+  }
+}
+
+/* ruled list rows (replace white cards) */
+.ruled {
+  display: flex;
+  flex-direction: column;
+}
+.ruled > * {
+  border-bottom: 1px solid var(--rule);
+}
+.r-row {
   display: flex;
   align-items: center;
   gap: 14px;
   width: 100%;
+  min-height: 60px;
+  padding: 12px 2px;
   text-align: left;
+  font-size: 17px;
+  font-weight: 500;
 }
-.game-card h3 {
-  font-size: 19px;
-  font-weight: 600;
+.r-row:hover {
+  background: var(--green-softer);
 }
-.game-card .sub {
-  color: var(--ink-2);
-  font-size: 15px;
-  margin-top: 4px;
-  line-height: 1.35;
+.section-title {
+  margin: 34px 0 0;
 }
 .home-grid {
   display: grid;
-  gap: 0 28px;
+  gap: 0 48px;
+}
+/* on a phone the draw comes first, straight under the band */
+@media (max-width: 899px) {
+  .home-grid > .open-col {
+    order: -1;
+  }
+  .home-grid > .open-col > .section-title {
+    margin-top: 20px;
+  }
 }
 @media (min-width: 900px) {
   .home-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1.25fr;
     align-items: start;
   }
 }
+
+/* a schedule-of-play row: big time on the left, the draw on the right */
+.draw-row {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 4px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 0 16px;
+  cursor: pointer;
+}
+.draw-row:hover {
+  background: var(--green-softer);
+}
+.draw-row .when,
+.mine-row .when {
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 0.95;
+  font-variant-numeric: tabular-nums;
+}
+.draw-row .when small,
+.mine-row .when small {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.draw-row .what {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.draw-row .what b {
+  color: var(--ink);
+  font-weight: 700;
+}
+.seats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 2px;
+  margin-top: 8px;
+}
+.seat {
+  height: 30px;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--ink);
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.seat.open {
+  border-bottom: 1.5px dashed var(--ink-3);
+  color: var(--ink-2);
+  text-transform: none;
+  font-stretch: 100%;
+  font-weight: 500;
+  font-size: 13px;
+}
+.seat.open.first {
+  color: var(--ink);
+  font-weight: 600;
+}
+.draw-row .foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.draw-row .foot .btn {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 15px;
+}
+
+.draw-grid {
+  display: grid;
+  border-top: 2px solid var(--ink);
+}
+.draw-grid > * {
+  border-bottom: 1px solid var(--rule);
+}
+@media (min-width: 900px) {
+  .draw-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 40px;
+  }
+}
+
+/* compact rows for "your games" */
+.mine-row {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  align-items: center;
+  gap: 4px 10px;
+  width: 100%;
+  padding: 12px 0;
+  text-align: left;
+}
+.mine-row:hover {
+  background: var(--green-softer);
+}
+.mine-row .when {
+  font-size: 28px;
+}
+.mine-row h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+.mine-row .sub {
+  color: var(--ink-2);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
 
 /* venue list */
 .venue-grid {
@@ -261,53 +448,72 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+/* venue list: the club's photo, then its entry ruled like a fixture list */
 .venue-card {
-  background: #fff;
-  border-radius: var(--r-lg);
-  padding: 14px 14px 18px;
   text-align: left;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
 }
 .venue-card .photo {
-  height: 190px;
-  margin-bottom: 10px;
+  height: 200px;
+  margin-bottom: 8px;
+  border-radius: var(--r-sm);
+}
+.venue-card:hover .photo img {
+  transform: scale(1.02);
+}
+.venue-card .photo img {
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .km-pill {
   position: absolute;
-  top: 14px;
-  left: 14px;
-  background: #fff;
-  border-radius: 999px;
-  padding: 6px 14px;
-  font-weight: 500;
-  font-size: 15px;
+  top: 12px;
+  left: 12px;
+  background: var(--ink);
+  color: #fff;
+  padding: 4px 10px;
+  font-stretch: var(--cond);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.03em;
 }
 .time-chip {
-  height: 40px;
-  padding: 0 18px;
+  height: 38px;
+  padding: 0 14px;
   border-radius: 999px;
-  background: var(--green-soft);
-  font-size: 16px;
-  font-weight: 500;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  font-stretch: var(--cond);
+  font-weight: 700;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
   display: inline-flex;
   align-items: center;
 }
 .time-chip:hover {
-  background: #c9efc3;
+  background: var(--ink);
+  color: #fff;
 }
 
-/* venue screen */
+/* venue screen: the club's own photo leads */
 .v-banner {
-  background: var(--green);
-  height: 180px;
+  background: var(--ink);
+  height: 240px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+  border-bottom: 2px solid var(--ink);
+}
+.v-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .v-banner .bar {
   position: absolute;
@@ -331,13 +537,22 @@
     align-items: start;
   }
   .v-banner {
-    height: 260px;
+    height: 380px;
   }
 }
+.photo-strip {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.photo-strip::-webkit-scrollbar {
+  display: none;
+}
 .cal {
-  background: #fff;
-  border-radius: var(--r-lg);
-  padding: 18px;
+  border-top: 2px solid var(--ink);
+  padding: 14px 0 0;
 }
 .cal-grid {
   display: grid;
@@ -382,18 +597,26 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
+/* a slot is a printed mark: hairline at rest, ink when chosen, struck through when taken */
 .slot {
   height: 54px;
-  border-radius: 16px;
-  background: #fff;
-  border: 1.5px solid var(--line);
-  font-size: 17px;
-  font-weight: 500;
+  border-radius: 2px;
+  background: transparent;
+  border: 1.5px solid var(--rule);
+  font-stretch: var(--cond);
+  font-size: 21px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.slot:hover {
+  border-color: var(--ink);
 }
 .slot.taken {
-  color: #b5c0b8;
+  color: var(--ink-3);
   text-decoration: line-through;
-  background: #f1f4ef;
+  text-decoration-thickness: 2px;
+  background: transparent;
+  border-style: dashed;
   pointer-events: none;
 }
 .slot.on {
@@ -421,18 +644,20 @@
 }
 .court-opt {
   background: #fff;
-  border-radius: 22px;
-  padding: 16px 20px;
+  border-radius: var(--r-md);
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
   text-align: left;
-  border: 1.5px solid transparent;
+  border: 1.5px solid var(--rule);
+}
+.court-opt:hover {
+  border-color: var(--ink);
 }
 .court-opt.on {
-  box-shadow: 0 6px 20px rgba(15, 43, 40, 0.12);
-  border-color: var(--line);
+  border: 2px solid var(--ink);
 }
 .bottom-bar {
   position: fixed;

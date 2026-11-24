@@ -8,7 +8,7 @@ import type { DemoState, Game, Sport } from '../lib/types'
 import { Avatar, Chips, Sheet, Toggle, courtName, cx, photoUrl, surfaceName, toast } from '../ui'
 import { PlayerShell } from './PlayerApp'
 import { TopBar, formatName, gameInfo, levelLabel, myRole } from './common'
-import { openToMe, joinInstant } from './Home'
+import { GameRow, openToMe, joinInstant } from './Home'
 
 const MAX: Record<Sport, number> = { tennis: 4, football: 10, basketball: 6, volleyball: 12 }
 const GUEST = '+guest'
@@ -879,8 +879,6 @@ export function ManagePlayers() {
 export function PlayersNeeded() {
   const s = useDemo()
   const t = useT()
-  const { lang } = useLang()
-  const nav = useNavigate()
   const [f, setF] = useState<'all' | 'today' | 'level' | 'doubles'>('all')
   const sport = s.me.sport
   const me = player(s, ME)
@@ -901,48 +899,12 @@ export function PlayersNeeded() {
       <TopBar back="/app/home" title={t('Players needed', 'Se caută jucători')} sub={`${t('Near you', 'Lângă tine')} · ${t('this week', 'săptămâna aceasta')}`} />
       <div className="p-page col" style={{ gap: 16, paddingTop: 4 }}>
         <Chips options={opts} value={f} onChange={setF} size="sm" />
-        <div className="venue-grid">
-          {games.map((g) => {
-            const { b, v, sport: sp } = gameInfo(s, g)
-            const each = share(s, g)
-            return (
-              <div key={g.id} className="open-card" role="button" style={{ cursor: 'pointer' }} onClick={() => nav(`/app/game/${g.id}`)}>
-                <div className="photo">
-                  <img src={photoUrl(v.cover)} alt="" loading="lazy" />
-                </div>
-                <div className="grow col" style={{ gap: 6 }}>
-                  <div className="row between" style={{ alignItems: 'flex-start' }}>
-                    <b style={{ fontSize: 18 }}>
-                      {formatName(t, g, sp)} · {b.date === today ? t('Today', 'Azi') : fmtDate(lang, b.date).split(' ')[0]} {hm(b.start)}
-                    </b>
-                    <span className="badge outline">
-                      {g.players.length} {t('of', 'din')} {g.size}
-                    </span>
-                  </div>
-                  <div className="muted small">
-                    {v.name} · {v.km.toFixed(1).replace('.0', '')} km · {levelLabel(t, g)} · {g.competitive ? t('Competitive', 'Competitiv') : t('Casual', 'Relaxat')}
-                  </div>
-                  <div className="row between" style={{ marginTop: 'auto' }}>
-                    <span>
-                      <b>{fmtMoney(each)}</b> <span className="muted small">{t('each', 'de persoană')}</span>
-                    </span>
-                    <button
-                      className="btn primary sm"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        if (g.approve) nav(`/app/game/${g.id}`)
-                        else joinInstant(g, t)
-                      }}
-                    >
-                      {g.approve ? t('Ask to join', 'Cere să intri') : t('Join', 'Intră')}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
+        <div className="draw-grid">
+          {games.map((g) => (
+            <GameRow key={g.id} g={g} />
+          ))}
         </div>
-        {games.length === 0 && <div className="card muted center">{t('No games match this filter.', 'Niciun meci nu se potrivește filtrului.')}</div>}
+        {games.length === 0 && <div className="muted center" style={{ padding: '24px 0' }}>{t('No games match this filter.', 'Niciun meci nu se potrivește filtrului.')}</div>}
       </div>
     </PlayerShell>
   )
